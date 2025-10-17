@@ -1,11 +1,11 @@
 import express from 'express'
-import { readFile, createWriteStream, createReadStream } from 'fs'
+import { writeFileSync } from 'fs'
 const app = express()
 
 import pureImage from 'pureimage'
 
-//Canvas Superiority | https://www.npmjs.com/package/canvas
-const canvas = require('canvas')
+
+import canvas from '@napi-rs/canvas'
 
 const CHARACTER_POSITIONS = {
   "A": [815,100],
@@ -48,7 +48,7 @@ const WUMPUS_PHASES = {
 
 
 
-const https = require('https')
+import https from 'https'
 
 
 //Logs Are Apprently Not Natural
@@ -581,6 +581,13 @@ async function drawLossScreen(data, ctx){
   
 }
 
+
+import dirpath from 'path'
+import { fileURLToPath } from 'url'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirpath.dirname(__filename)
+
 //Respond To Get Request At Base URL '/'
 app.get('/*',  async ( request, response ) => { //So Adding The Asterisk Does Indeed Make It Accept Any Text That Gets Passed Into The URL
   
@@ -617,10 +624,9 @@ app.get('/*',  async ( request, response ) => { //So Adding The Asterisk Does In
   else if ( hasLost(data) ){ await drawLossScreen(data, ctx) }
   
   //Send Image To Client
-  const out = createWriteStream(__dirname + '/test.png')
-  const stream = c.createPNGStream()
-  stream.pipe(out)
-  out.on('finish', () =>  { response.sendFile('./test.png', { root: __dirname }) })
+  const pngData = await c.encode('png')
+  writeFileSync(__dirname + '/tmp/output.png', pngData)
+  response.sendFile('./tmp/output.png', { root: __dirname }) 
   
 
   
