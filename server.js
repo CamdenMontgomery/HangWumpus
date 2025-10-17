@@ -625,8 +625,9 @@ app.get('/*',  async ( request, response ) => { //So Adding The Asterisk Does In
   
   //Send Image To Client
   const pngData = await c.encode('png')
-  writeFileSync(__dirname + '/tmp/output.png', pngData)
-  response.sendFile('./tmp/output.png', { root: __dirname }) 
+  response.setHeader("Content-Type", "image/png")
+  response.setHeader("Content-Length", pngData.length)
+  response.send(pngData) 
   
 
   
