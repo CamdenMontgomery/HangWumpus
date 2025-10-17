@@ -1,7 +1,7 @@
 import express from 'express'
-import { writeFileSync } from 'fs'
+//import { writeFileSync } from 'fs'
 const app = express()
-
+/*
 import pureImage from 'pureimage'
 
 
@@ -120,11 +120,11 @@ function parsePathData(path){
   //NOTE: Discord Doesnt Allow Spaces In URLs So Keep In Mind That %20 Is The URL Code For Space
   
   var data = []
-  path = decodeURI(path)
-  path = path.replace(/(?<=\/.*\/.*)\/.*/g, "")//Clear anything passed the third slash
-  var query = path.match(/(?<=\/)([^/\n$\r]*)*(?=\/)/gi)[0]//Get The First Path Segment
-  var guesses = path.match(/(?<=\/)(([^/\n$\r]*\n)|([^/\n$\r]*$))/gi)[0]//Get The Second Path Segment
-  
+  path = decodeURI(path)*/
+  //path = path.replace(/(?<=\/.*\/.*)\/.*/g, "")//Clear anything passed the third slash
+  //var query = path.match(/(?<=\/)([^/\n$\r]*)*(?=\/)/gi)[0]//Get The First Path Segment
+  //var guesses = path.match(/(?<=\/)(([^/\n$\r]*\n)|([^/\n$\r]*$))/gi)[0]//Get The Second Path Segment
+  /*
 
   //Remove Non Letters From Guesses
   guesses = guesses.replace(/[^A-Z]/gi, "")
@@ -591,10 +591,11 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirpath.dirname(__filename)
 const fontPath = dirpath.join(__dirname, "public", "fonts", "impact.ttf")
 canvas.GlobalFonts.registerFromPath(fontPath, "OpenSans")
+*/
 
 //Respond To Get Request At Base URL '/'
 app.get('/*',  async ( request, response ) => { //So Adding The Asterisk Does Indeed Make It Accept Any Text That Gets Passed Into The URL
-  
+  /*
   //Found A Package Called 'pureImage' Which May Help With Generating Images | https://www.npmjs.com/package/pureimage 
   
   //It Turns Out Glitch Store Images Exclusively On The Web And So We Can Only Obtain A URL For The Image. Luckily The Examples For PureImage Teach How To Get Images From URLs
@@ -631,7 +632,7 @@ app.get('/*',  async ( request, response ) => { //So Adding The Asterisk Does In
   const pngData = await c.encode('png')
   response.setHeader("Content-Type", "image/png")
   response.setHeader("Content-Length", pngData.length)
-  response.send(pngData) 
+  response.send(pngData)*/
   
 
   
