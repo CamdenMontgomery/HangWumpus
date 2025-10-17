@@ -585,8 +585,12 @@ async function drawLossScreen(data, ctx){
 import dirpath from 'path'
 import { fileURLToPath } from 'url'
 
+
+
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirpath.dirname(__filename)
+const fontPath = dirpath.join(__dirname, "public", "fonts", "impact.ttf")
+canvas.GlobalFonts.registerFromPath(fontPath, "OpenSans")
 
 //Respond To Get Request At Base URL '/'
 app.get('/*',  async ( request, response ) => { //So Adding The Asterisk Does Indeed Make It Accept Any Text That Gets Passed Into The URL
