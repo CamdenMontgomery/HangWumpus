@@ -1,8 +1,8 @@
-const express = require('express')
-const { readFile, createWriteStream, createReadStream } = require('fs')
+import express from 'express'
+import { readFile, createWriteStream, createReadStream } from 'fs'
 const app = express()
 
-const pureImage = require('pureimage')
+import pureImage from 'pureimage'
 
 //Canvas Superiority | https://www.npmjs.com/package/canvas
 const canvas = require('canvas')
@@ -631,7 +631,4 @@ app.get('/*',  async ( request, response ) => { //So Adding The Asterisk Does In
 //https://support.glitch.com/t/project-wont-start/13337
 //https://nodejs.dev/en/learn/reading-files-with-nodejs/
 
-// listen for requests
-const listener = app.listen(process.env.PORT, function() {
-  console.log('Your app is listening on port ' + listener.address().port);
-});
+export default app
