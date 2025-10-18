@@ -13,6 +13,8 @@ export default async function PNGFromGameState(answer: string, guesses: string[]
     answer = answer.toUpperCase().replaceAll(/[^A-Z ]/g,'')
     guesses = guesses.join().toUpperCase().replaceAll(/[^A-Z]/g,'').split('')
 
+    //Validate That We Have The Necessary Information
+    if (answer.length == 0) throw Error('No Answer Provided | Try Different Input')
 
     const canvas = Canvas.createCanvas(IMAGE_WIDTH,IMAGE_HEIGHT)
     const ctx = canvas.getContext('2d')
