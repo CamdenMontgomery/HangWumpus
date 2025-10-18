@@ -1,7 +1,9 @@
 import Canvas from '@napi-rs/canvas'
+import path from 'path';
 
 const PHASE_IMAGES = [
-    "/public/images/phase_0.png"
+    path.join(process.cwd(), "public","images","Phase_0.png")
+    
 ]
 const MAX_PHASE = PHASE_IMAGES.length - 1
 

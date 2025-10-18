@@ -7,7 +7,7 @@ const IMAGE_WIDTH = 1920
 const IMAGE_HEIGHT = 1080
 
 
-export default async function PNGFromGameState(answer: string, guesses: string[], hint?:string, mode: 'CLEAR' | 'OBFUSCATED'  = 'CLEAR') : Promise<Buffer<ArrayBufferLike>> {
+export default async function PNGFromGameState(answer: string, guesses: string[], hint?:string, mode: 'CLEAR' | 'OBFUSCATED'  = 'CLEAR') : Promise<Buffer> {
 
     //Clean The Input
     answer = answer.toUpperCase().replaceAll(/[^A-Z ]/g,'')
@@ -20,6 +20,7 @@ export default async function PNGFromGameState(answer: string, guesses: string[]
     const ctx = canvas.getContext('2d')
 
     //Count # of Wrong Guesses To Determine Phase
+    console.log(answer,guesses)
     const phase = guesses.reduce((acc, val) => !answer.includes(val) ? acc + 1 : acc, 0)
     drawBackground(ctx, phase, IMAGE_WIDTH, IMAGE_HEIGHT)
 

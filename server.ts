@@ -598,7 +598,7 @@ import PNGFromGameState from './src/core/PNGFromGameState.js'
 app.get('/play',  async ( request, response ) => { 
   
   const answer = String(request.query.answer)
-  const guesses = String(request.query.guessses).split('')
+  const guesses = String(request.query.guesses).split('')
   
   if (!answer || !guesses)
   {
@@ -607,7 +607,7 @@ app.get('/play',  async ( request, response ) => {
   }
 
   const image = await PNGFromGameState(answer, guesses)
-  
+
   response.setHeader("Content-Type", "image/png")
   response.setHeader("Content-Length", image.length)
   response.send(image)
