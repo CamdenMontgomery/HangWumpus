@@ -2,6 +2,7 @@ import Canvas from '@napi-rs/canvas'
 import drawBackground from '../utils/drawBackground.js'
 import drawKeyBoard from '../utils/drawKeyBoard.js'
 import drawPuzzleBoard from '../utils/drawPuzzleBoard.js'
+import initializeGlobalFonts from '../utils/initializeGlobalFonts.js'
 
 const IMAGE_WIDTH = 1920
 const IMAGE_HEIGHT = 1080
@@ -29,6 +30,10 @@ export default async function PNGFromGameState(answer: string, guesses: string[]
     console.log(answer,guesses)
     const phase = guesses.reduce((acc, val) => !answer.includes(val) ? acc + 1 : acc, 0)
     await drawBackground(ctx, phase, IMAGE_WIDTH, IMAGE_HEIGHT)
+
+
+    //Initialize Global Fonts
+    initializeGlobalFonts()
 
     //Recreate the answer with '_' characters as unknown spaces | Leave Spaces As Is
     const board_text = answer.split('').map((char) => guesses.includes(char) || char == ' ' ? char : '_' ).join('')

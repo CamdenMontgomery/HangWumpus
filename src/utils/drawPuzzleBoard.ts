@@ -63,6 +63,7 @@ export default function drawPuzzleBoard(context: Canvas.SKRSContext2D, text: str
 
 const RECT_RADIUS = 10
 const BACKGROUND_COLOR = "#272727"
+const FONT_SCALE = 0.6
 
 function drawPuzzleBoardSpace(context: Canvas.SKRSContext2D, char: string, x: number, y: number, width: number, height: number) {
 
@@ -91,9 +92,9 @@ function drawPuzzleBoardSpace(context: Canvas.SKRSContext2D, char: string, x: nu
     // -> Vertical Cross Arm
     context.fillRect(x + radius, y, width - radius * 2, height)
     
-
+    //Draw Character In Space
     context.fillStyle = "white"
-    context.font = `bold ${height}px impact`
+    context.font = `normal 900 ${height * FONT_SCALE}px Inter-Black`
     context.textBaseline = 'middle'
     context.textAlign = 'center'
     context.fillText(char, x + width/2, y + height/2)
@@ -101,7 +102,7 @@ function drawPuzzleBoardSpace(context: Canvas.SKRSContext2D, char: string, x: nu
 }
 
 
-
+//Small Helper Function For Drawing Circles
 function fillCircle(context: Canvas.SKRSContext2D, x: number ,y: number, radius: number){
     context.beginPath()
     context.arc(x,y,radius, 0, 2 * Math.PI, false)
