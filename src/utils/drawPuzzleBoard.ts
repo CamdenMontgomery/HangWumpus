@@ -61,13 +61,36 @@ export default function drawPuzzleBoard(context: Canvas.SKRSContext2D, text: str
 
 }
 
-
+const RECT_RADIUS = 10
+const BACKGROUND_COLOR = "#272727"
 
 function drawPuzzleBoardSpace(context: Canvas.SKRSContext2D, char: string, x: number, y: number, width: number, height: number) {
 
     //Draw Background Rectangle
-    context.fillStyle = "black"
-    context.fillRect(x, y, width, height)
+    const radius = RECT_RADIUS
+    
+    // -> Middle
+    context.fillStyle = BACKGROUND_COLOR
+    context.fillRect(x + radius, y+ radius, width - radius * 2, height - radius * 2)
+    
+    // -> Top-Left Corner 
+    fillCircle(context,x + radius, y + radius, radius)
+
+    // -> Top-Right Corner 
+    fillCircle(context,x + width - radius, y + radius, radius)
+
+    // -> Bottom-Right Corner 
+    fillCircle(context,x + width - radius, y + height - radius, radius)
+
+    // -> Bottom-Left Corner 
+    fillCircle(context,x + radius, y + height - radius, radius)
+
+    // -> Horizontal Cross Arm
+    context.fillRect(x, y+ radius, width, height -  radius * 2)
+
+    // -> Vertical Cross Arm
+    context.fillRect(x + radius, y, width - radius * 2, height)
+    
 
     context.fillStyle = "white"
     context.font = `bold ${height}px impact`
@@ -75,4 +98,13 @@ function drawPuzzleBoardSpace(context: Canvas.SKRSContext2D, char: string, x: nu
     context.textAlign = 'center'
     context.fillText(char, x + width/2, y + height/2)
 
+}
+
+
+
+function fillCircle(context: Canvas.SKRSContext2D, x: number ,y: number, radius: number){
+    context.beginPath()
+    context.arc(x,y,radius, 0, 2 * Math.PI, false)
+    context.fill()
+    context.closePath()
 }
