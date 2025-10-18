@@ -7,10 +7,16 @@ import initializeGlobalFonts from '../utils/initializeGlobalFonts.js'
 const IMAGE_WIDTH = 1920
 const IMAGE_HEIGHT = 1080
 const PUZZLEBOARD_PARAMS = {
-    x: 1000,
+    x: 990,
     y: 250,
     width: 900,
     height: 320
+}
+const KEYBOARD_PARAMS = {
+    x: 1025,
+    y: 700,
+    width: 820,
+    height: 412
 }
 
 
@@ -43,7 +49,7 @@ export default async function PNGFromGameState(answer: string, guesses: string[]
     //Deduce which guesses are correct and incorrect
     const right_guesses = guesses.filter((char) => answer.includes(char))
     const wrong_guesses = guesses.filter((char) => !answer.includes(char))
-    drawKeyBoard(right_guesses, wrong_guesses)
+    drawKeyBoard(ctx,right_guesses, wrong_guesses,KEYBOARD_PARAMS.x,KEYBOARD_PARAMS.y,KEYBOARD_PARAMS.width,KEYBOARD_PARAMS.height)
 
     return await canvas.encode('png')
 
