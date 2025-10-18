@@ -25,7 +25,7 @@ export default async function PNGFromGameState(answer: string, guesses: string[]
 
     //Recreate the answer with '_' characters as unknown spaces | Leave Spaces As Is
     const board_text = answer.split('').map((char) => guesses.includes(char) || char == ' ' ? char : '_' ).join()
-    drawPuzzleBoard(board_text)
+    drawPuzzleBoard(ctx, board_text, 0, 0, IMAGE_WIDTH, IMAGE_HEIGHT)
 
     //Deduce which guesses are correct and incorrect
     const right_guesses = guesses.filter((char) => answer.includes(char))
