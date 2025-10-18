@@ -9,6 +9,11 @@ const IMAGE_HEIGHT = 1080
 
 export default async function PNGFromGameState(answer: string, guesses: string[], hint?:string, mode: 'CLEAR' | 'OBFUSCATED'  = 'CLEAR') : Promise<Buffer<ArrayBufferLike>> {
 
+    //Clean The Input
+    answer = answer.toUpperCase().replaceAll(/[^A-Z ]/g,'')
+    guesses = guesses.join().toUpperCase().replaceAll(/[^A-Z]/g,'').split('')
+
+
     const canvas = Canvas.createCanvas(IMAGE_WIDTH,IMAGE_HEIGHT)
     const ctx = canvas.getContext('2d')
 
