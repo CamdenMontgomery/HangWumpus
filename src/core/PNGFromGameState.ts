@@ -10,10 +10,11 @@ const IMAGE_HEIGHT = 1080
 export default async function PNGFromGameState(answer: string, guesses: string[], hint?:string, mode: 'CLEAR' | 'OBFUSCATED'  = 'CLEAR') : Promise<Buffer<ArrayBufferLike>> {
 
     const canvas = Canvas.createCanvas(IMAGE_WIDTH,IMAGE_HEIGHT)
+    const ctx = canvas.getContext('2d')
 
     //Count # of Wrong Guesses To Determine Phase
     const phase = guesses.reduce((acc, val) => !answer.includes(val) ? acc + 1 : acc, 0)
-    drawBackground(phase)
+    drawBackground(ctx, phase, IMAGE_WIDTH, IMAGE_HEIGHT)
 
     //Recreate the answer with '_' characters as unknown spaces | Leave Spaces As Is
     const board_text = answer.split('').map((char) => guesses.includes(char) || char == ' ' ? char : '_' ).join()
