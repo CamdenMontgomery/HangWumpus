@@ -593,8 +593,25 @@ const fontPath = dirpath.join(__dirname, "public", "fonts", "impact.ttf")
 canvas.GlobalFonts.registerFromPath(fontPath, "OpenSans")
 */
 
-//Respond To Get Request At Base URL '/'
-app.get('/*',  async ( request, response ) => { //So Adding The Asterisk Does Indeed Make It Accept Any Text That Gets Passed Into The URL
+import PNGFromGameState from './src/core/PNGFromGameState.js'
+
+app.get('/play',  async ( request, response ) => { 
+  
+  const answer = String(request.query.answer)
+  const guesses = String(request.query.guessses).split('')
+  
+  if (!answer || !guesses)
+  {
+    response.send('Failure')
+    return
+  }
+
+  const image = await PNGFromGameState(answer, guesses)
+  
+  response.setHeader("Content-Type", "image/png")
+  response.setHeader("Content-Length", image.length)
+  response.send(image)
+  
   /*
   //Found A Package Called 'pureImage' Which May Help With Generating Images | https://www.npmjs.com/package/pureimage 
   
