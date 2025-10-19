@@ -4,6 +4,7 @@ import drawKeyBoard from '../utils/drawKeyBoard.js'
 import drawPuzzleBoard from '../utils/drawPuzzleBoard.js'
 import initializeGlobalFonts from '../utils/initializeGlobalFonts.js'
 import drawWinScreen from '../utils/drawWinScreen.js'
+import drawLoseScreen from '../utils/drawLoseScreen.js'
 
 type GameState = 'IN_PROGRESS' | 'WON' | 'LOST'
 
@@ -23,7 +24,7 @@ const KEYBOARD_PARAMS = {
     height: 412
 }
 
-const MAX_INCORRECT = 4
+const MAX_INCORRECT = 5
 
 export default async function PNGFromGameState(answer: string, guesses: string[], hint?:string /*Unused*/, mode: 'CLEAR' | 'OBFUSCATED'  = 'CLEAR' /*Unused*/) : Promise<Buffer> {
 
@@ -41,28 +42,35 @@ export default async function PNGFromGameState(answer: string, guesses: string[]
     const ctx = canvas.getContext('2d')
 
 
+    //Initialize Global Fonts For Use In Drawing
+    initializeGlobalFonts()
+
+    
     //Determine Gamestate
     const num_incorrect = guesses.reduce((acc, val) => !answer.includes(val) ? acc + 1 : acc, 0)
-    const gameState = num_incorrect >= MAX_INCORRECT ? 'LOST' : answer.split('').every(char => guesses.includes(char) || char == ' ') ? 'WON' : 'IN_PROGRESS'
+    const gameState: GameState = num_incorrect >= MAX_INCORRECT ? 'LOST' : answer.split('').every(char => guesses.includes(char) || char == ' ') ? 'WON' : 'IN_PROGRESS'
+
+
 
     switch (gameState){
         case 'WON': {
 
-            //Initialize Global Fonts For Use In Drawing
-            initializeGlobalFonts()
+
             await drawWinScreen(ctx, answer)
             break
 
         }
         case 'LOST': {
 
+
+            await drawLoseScreen(ctx, answer)
             break
 
         }
         case 'IN_PROGRESS': {
 
             //Count # of Wrong Guesses To Determine Phase
-            const phase = Math.min(num_incorrect, MAX_INCORRECT)
+            const phase = Math.min(num_incorrect, MAX_INCORRECT - 1)
             
 
             //Recreate the answer with '_' characters as unknown spaces | Leave Spaces As Is
@@ -73,8 +81,6 @@ export default async function PNGFromGameState(answer: string, guesses: string[]
             const right_guesses = guesses.filter((char) => answer.includes(char))
             const wrong_guesses = guesses.filter((char) => !answer.includes(char))
 
-            //Initialize Global Fonts For Use In Drawing
-            initializeGlobalFonts()
 
             //Draw Stack
             await drawBackground(ctx, phase, IMAGE_WIDTH, IMAGE_HEIGHT)
