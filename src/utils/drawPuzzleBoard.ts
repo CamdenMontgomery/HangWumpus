@@ -1,15 +1,19 @@
 import Canvas from "@napi-rs/canvas";
 
 const SPACE_ASPECT_RATIO = (137 / 122)
+const MAX_SPACE_WIDTH = 100
 const COEFFICIENT = 2
 const GAP = 10
+
+
+
 
 export default function drawPuzzleBoard(context: Canvas.SKRSContext2D, text: string, x: number, y: number, width: number, height: number) {
 
     //Guesstimate required space width by comparing the area of the board to the sum of the areas of each space | Equating the areas to one another to solve for the space width
     const count = text.length
     const board_area = width * height
-    const space_width = Math.sqrt((board_area) / (COEFFICIENT * SPACE_ASPECT_RATIO * count)) - GAP //coefficient * board_area = (space_width + gap) * (gap + space_width * aspect_ratio) * count
+    const space_width = Math.sqrt((board_area) / (COEFFICIENT * SPACE_ASPECT_RATIO * count)) - GAP //coefficient * board_area = (space_width + gap) * (gap + space_width * aspect_ratio) * count [TODO: Validate]
     console.log(board_area, count, space_width)
 
     //Dont break up words, iterate through token list fitting as many tokens into each line as possible
@@ -34,11 +38,26 @@ export default function drawPuzzleBoard(context: Canvas.SKRSContext2D, text: str
     rows = rows.filter((row) => !!row)
     console.log(rows)
 
-    //scale values to fit within boards bounding box
+    //scale values to fit within boards bounding box | relative to width first
     const collective_width = Math.max(...rows.map((row) => row.join(' ').length * (space_width + GAP)))
     const scale = width / collective_width
-    const scaled_width = space_width * scale
-    const scaled_height = scaled_width * SPACE_ASPECT_RATIO
+    let scaled_width = space_width * scale
+    let scaled_height = scaled_width * SPACE_ASPECT_RATIO
+
+    //Check if the scaled height exceeds the bounding box height
+    const total_height = rows.length * (scaled_height + GAP) - GAP
+    if (total_height > height) {
+        const height_scale = height / total_height
+        //Rescale width and height based on height scale
+        scaled_width *= height_scale
+        scaled_height *= height_scale
+    }
+
+    //Force a maximum size for each space
+    if (scaled_width > MAX_SPACE_WIDTH) {
+        scaled_width = MAX_SPACE_WIDTH
+        scaled_height = scaled_width * SPACE_ASPECT_RATIO
+    }
 
     //Begin drawing the rows previously defined
     for (let index = 0; index < rows.length; index++) {
@@ -48,8 +67,8 @@ export default function drawPuzzleBoard(context: Canvas.SKRSContext2D, text: str
         const row_text = row.join(' ')
 
 
-        const start_x = width / 2 + x - row_text.length * (scaled_width + GAP) / 2
-        const space_y = y + index * (scaled_height + GAP)
+        const start_x = width / 2 + x - row_text.length * (scaled_width + GAP) / 2 //Center the row based on its length
+        const space_y = y + index * (scaled_height + GAP) + (height - (rows.length * (scaled_height + GAP) - GAP)) / 2 //Center all rows vertically within the bounding box
         let space_x = start_x
 
         for (const char of row_text.split('')) {
