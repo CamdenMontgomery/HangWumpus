@@ -1,4 +1,8 @@
-.glitchdotcom.json
-.node-gyp
 node_modules
 .vercel
+.DS_Store
+.env
+dist
+.config
+.cache
+com.bash_envd
