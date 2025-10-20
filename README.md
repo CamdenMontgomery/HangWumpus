@@ -1,3 +1,7 @@
+
+<img width="1920" height="681" alt="Frame 932" src="https://github.com/user-attachments/assets/d4c808b5-5fcf-4aa4-9d73-2ee3d1ae8728" />
+
+
 # HangWumpus — Version 2
 
 ![Release](https://img.shields.io/github/v/release/CamdenMontgomery/hangwumpus?sort=semver)
@@ -40,7 +44,7 @@ HangWumpus is a URL-based hangman game designed to be played directly in Discord
 1. Copy or save the HangWumpus link format:
 
    ```
-   https://hang-wumpus.vercel.app/play?answer=[your answer here]&guesses=[characters guessed here]
+   https://hangwumpus.com/play?answer=[your answer here]&guesses=[characters guessed here]
    ```
 2. Paste it in a Discord chat. For spoiler safety, use Discord’s spoiler command (`||` around text) to hide the answer from other players.
 3. Discord will render an image showing Wumpus in a friendly hangman scene — progress is displayed visually based on the letters guessed.
@@ -48,8 +52,8 @@ HangWumpus is a URL-based hangman game designed to be played directly in Discord
 
 Examples:
 
-* `https://hang-wumpus.vercel.app/play?answer=discord&guesses=dil` → Shows two correct guesses and one wrong.
-* `https://hang-wumpus.vercel.app/play?answer=discord&guesses=dilgnhyu` → Shows the losing screen and message.
+* `https://hangwumpus.com/play?answer=discord&guesses=dil` → Shows two correct guesses and one wrong.
+* `https://hangwumpus.com/play?answer=discord&guesses=dilgnhyu` → Shows the losing screen and message.
 
 The judge can freely update the guesses and answer to keep the game flowing.
 
@@ -152,13 +156,13 @@ Returns: image/png
 #### cURL
 
 ```bash
-curl "https://hang-wumpus.vercel.app/play?answer=hello world&guesses=dil" --output game.png
+curl "https://hangwumpus.com/play?answer=hello world&guesses=dil" --output game.png
 ```
 
 #### JavaScript (Node / Browser)
 
 ```js
-fetch('https://hang-wumpus.vercel.app/play?answer=hello world&guesses=dil')
+fetch('https://hangwumpus.com/play?answer=hello world&guesses=dil')
   .then(res => res.blob())
   .then(blob => {
     const url = URL.createObjectURL(blob);
