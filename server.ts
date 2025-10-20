@@ -2,7 +2,7 @@ import PNGFromGameState from './src/core/PNGFromGameState.js'
 import express from 'express'
 const app = express()
 
-
+//Main Endpoint To Generate Game State Image
 app.get('/play',  async ( request, response ) => { 
   
 
@@ -22,6 +22,13 @@ app.get('/play',  async ( request, response ) => {
   response.send(image)
   
   
+})
+
+//Catch-All For Invalid URLs | Provides Usage Instructions
+app.get('/*',  async ( request, response ) => { 
+
+  response.send('Error: Invalid URL | Please use this URL format: <a href="https://hangwumpus.com/play?answer=[YOUR_ANSWER]&guesses=[GUESSED_LETTERS]">https://hangwumpus.com/play?answer=[YOUR_ANSWER]&guesses=[GUESSED_LETTERS]</a>')
+
 })
 
 
