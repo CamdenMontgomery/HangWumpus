@@ -597,10 +597,11 @@ import PNGFromGameState from './src/core/PNGFromGameState.js'
 
 app.get('/play',  async ( request, response ) => { 
   
-  const answer = String(request.query.answer)
-  const guesses = String(request.query.guesses).split('')
+
+  const answer = String(request.query.answer ?? '').replace(/[-_]/,' ') //'-' & '_' Characters Replaced With Spaces To Support URLS From Messaging Platforms Which Dont SUpport Spaces in URLs
+  const guesses = String(request.query.guesses ?? '').split('') //Blank If Undefined. Split Into Singular Characters
   
-  if (!answer || !guesses)
+  if (answer.length == 0)
   {
     response.send('Failure')
     return
