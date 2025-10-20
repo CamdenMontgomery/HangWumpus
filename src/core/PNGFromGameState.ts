@@ -1,3 +1,4 @@
+
 import Canvas from '@napi-rs/canvas'
 import drawBackground from '../utils/drawBackground.js'
 import drawKeyBoard from '../utils/drawKeyBoard.js'
@@ -26,6 +27,49 @@ const KEYBOARD_PARAMS = {
 
 const MAX_INCORRECT = 5
 
+
+
+
+/**
+ * Generate a PNG image buffer that visualizes a Hangman-like game state.
+ *
+ * This asynchronous function builds a 1920x1080 PNG representation of the current
+ * game given the secret answer and a list of guessed letters. It:
+ *  - Normalizes inputs (forces uppercase, strips non-alphabetic characters from the answer,
+ *    removes duplicates and non-alphabetic chars from guesses).
+ *  - Computes the number of incorrect guesses and derives a game state: WON, LOST, or IN_PROGRESS.
+ *  - For WON/LOST states, draws the appropriate end screen.
+ *  - For IN_PROGRESS, computes a masked puzzle board (unknown letters replaced with '_'),
+ *    separates right and wrong guesses, determines the current phase from the incorrect count,
+ *    and draws the background, puzzle board, and keyboard with guessed letters.
+ *  - Returns the resulting PNG image as a Buffer.
+ *
+ * Remarks:
+ *  - The answer preserves spaces; spaces are never masked.
+ *  - The guesses array will be deduplicated and converted to an array of single uppercase characters
+ *    before use.
+ *  - The function calls external drawing utilities and initializes global fonts before rendering.
+ *  - The optional `hint` and `mode` parameters are accepted but not used by the rendering logic.
+ *
+ * @param answer - The secret answer phrase. Non-letter characters (except space) will be removed and
+ *                 the string will be converted to uppercase before processing. Must not be empty
+ *                 after sanitization.
+ * @param guesses - An array of guessed letters (strings). The array will be deduplicated and sanitized:
+ *                  converted to uppercase and non-letter characters removed. After sanitization each
+ *                  element is treated as a single character guess.
+ * @param hint - Optional hint text (currently unused by the renderer).
+ * @param mode - Optional rendering mode, either 'CLEAR' or 'OBFUSCATED'. Defaults to 'CLEAR'.
+ *               (Currently unused by the renderer.)
+ *
+ * @returns A Promise that resolves to a Buffer containing the encoded PNG image.
+ *
+ * @throws {Error} If the provided answer is empty (after sanitization), an Error with message
+ *                 'No Answer Provided | Try Different Input' is thrown.
+ *
+ * @example
+ * // (async context)
+ * const pngBuffer = await PNGFromGameState("hello world", ["h", "x", "e"], undefined, "CLEAR");
+ */
 export default async function PNGFromGameState(answer: string, guesses: string[], hint?:string /*Unused*/, mode: 'CLEAR' | 'OBFUSCATED'  = 'CLEAR' /*Unused*/) : Promise<Buffer> {
 
     //Clean The Input

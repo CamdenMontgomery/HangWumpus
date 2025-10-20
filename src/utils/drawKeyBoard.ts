@@ -1,3 +1,4 @@
+
 import Canvas from '@napi-rs/canvas'
 
 const KEY_ASPECT_RATIO = 90/76
@@ -14,6 +15,36 @@ const NEUTRAL_COLOR_PALETTE = {color:"white", background: "#272727"}
 const RIGHT_COLOR_PALETTE = {color:"white", background: "#404EED"}
 const WRONG_COLOR_PALETTE = {color:"#B8CDFF", background: "#8EA3D5"}
 
+
+/**
+ * Draws a stylized keyboard inside a given bounding box on a @napi-rs/canvas 2D context.
+ *
+ * The keyboard is composed of three rows ("QWERTYUIOP", "ASDFGHJKL", "ZXCVVBNM").
+ * Each key is rendered as a rounded rectangle with its character centered. Key widths
+ * are computed to fit the provided bounding width (subject to a maximum keys-per-row),
+ * and key heights are computed from a fixed aspect ratio. Keys are colored according
+ * to membership in the provided `right` and `wrong` lists.
+ *
+ * @param context - The Canvas SKRS 2D rendering context used for drawing.
+ * @param right - Array of single-character strings (typically uppercase letters) that should be drawn using the "right" color palette.
+ * @param wrong - Array of single-character strings that should be drawn using the "wrong" color palette. If a character appears in both `right` and `wrong`, the "wrong" palette takes precedence.
+ * @param x - X coordinate (pixels) of the top-left corner of the keyboard bounding box.
+ * @param y - Y coordinate (pixels) of the top-left corner of the keyboard bounding box.
+ * @param width - Width (pixels) of the keyboard bounding box. The keys are laid out to fit this width.
+ * @param height - Height (pixels) available for the keyboard area. The actual drawn keyboard height depends on computed key size and gaps.
+ *
+ * @remarks
+ * - This function mutates the supplied canvas context state (it sets fillStyle, font, textBaseline and textAlign). If you need to preserve previous context state, save/restore the context externally.
+ * - Visual parameters such as key aspect ratio, gap size, corner radius, and font scale are controlled by module-level constants.
+ * - Units are in pixels.
+ *
+ * @example
+ * const canvas = Canvas.createCanvas(800, 200);
+ * const ctx = canvas.getContext('2d');
+ * drawKeyBoard(ctx, ['A','S','D'], ['Q','Z'], 10, 10, 780, 180);
+ *
+ * @returns void
+ */
 export default function drawKeyBoard(context: Canvas.SKRSContext2D, right: string[], wrong: string[], x: number, y: number, width: number, height: number){
 
 

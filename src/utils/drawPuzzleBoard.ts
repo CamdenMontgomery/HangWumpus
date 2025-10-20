@@ -7,7 +7,44 @@ const GAP = 10
 
 
 
-
+/**
+ * Draws a puzzle board (a grid of rounded rectangular "spaces" with characters) into a given canvas context,
+ * constrained to a specified bounding box.
+ *
+ * The function:
+ *  - Estimates an initial per-space width from the board area and the length of the provided text.
+ *  - Splits the text into tokens on single space characters and lays out tokens into rows without breaking words.
+ *  - Scales the computed space size to fit the bounding box width, then re-scales if the total height exceeds the
+ *    bounding box height. A hard maximum per-space width is enforced.
+ *  - Centers rows horizontally and vertically within the bounding box.
+ *  - Renders one "space" per character position; actual space characters (' ') are left blank (consume layout width but are not drawn).
+ *  - Draws each non-space character centered inside its space using a bold font.
+ *
+ * Implementation notes:
+ *  - Uses constants defined in the module for spacing, aspect ratio, max size, corner radius and visual style.
+ *  - Uses token-based wrapping, so words are not broken across rows.
+ *  - Consecutive space characters in the input will create empty layout slots (they affect spacing but are not rendered).
+ *  - Debug information (board area, computed space width, and row layout) may be logged to the console.
+ *
+ * @param context - A Canvas.SKRSContext2D rendering context (from @napi-rs/canvas) to draw onto.
+ * @param text - The text to render on the board. Tokens are determined by splitting on the ASCII space character.
+ * @param x - X coordinate of the top-left corner of the bounding box (in canvas pixels).
+ * @param y - Y coordinate of the top-left corner of the bounding box (in canvas pixels).
+ * @param width - Width of the bounding box available for the board (in canvas pixels).
+ * @param height - Height of the bounding box available for the board (in canvas pixels).
+ *
+ * @returns void
+ *
+ * @example
+ * // Draw "HELLO WORLD" centered inside a 400x120 box at position (10, 20)
+ * drawPuzzleBoard(ctx, "HELLO WORLD", 10, 20, 400, 120);
+ *
+ * @remarks
+ * - If the provided bounding box is too small to display all characters at a reasonable size, the function will scale
+ *   spaces down to fit but will not perform word hyphenation or character truncation.
+ * - The appearance (gap between spaces, aspect ratio of spaces, max space width, corner radius, font scale, background color)
+ *   is controlled by module-level constants and can be adjusted there.
+ */
 export default function drawPuzzleBoard(context: Canvas.SKRSContext2D, text: string, x: number, y: number, width: number, height: number) {
 
     //Guesstimate required space width by comparing the area of the board to the sum of the areas of each space | Equating the areas to one another to solve for the space width
