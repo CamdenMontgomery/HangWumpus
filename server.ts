@@ -603,7 +603,7 @@ app.get('/play',  async ( request, response ) => {
   
   if (answer.length == 0)
   {
-    response.send('Failure')
+    response.send('Error: No answer provided')
     return
   }
 
