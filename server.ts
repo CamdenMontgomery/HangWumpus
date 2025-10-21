@@ -35,7 +35,7 @@ const app = express()
 app.get('/play',  async ( request, response ) => { 
   
 
-  const answer = String(request.query.answer ?? '').replaceAll(/[-_]/,' ') //'-' & '_' Characters Replaced With Spaces To Support URLS From Messaging Platforms Which Dont SUpport Spaces in URLs
+  const answer = String(request.query.answer ?? '').replaceAll(/[-_]/g,' ') //'-' & '_' Characters Replaced With Spaces To Support URLS From Messaging Platforms Which Dont SUpport Spaces in URLs
   const guesses = String(request.query.guesses ?? '').split('') //Blank If Undefined. Split Into Singular Characters
   
   if (answer.length == 0)
